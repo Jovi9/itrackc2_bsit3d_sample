@@ -43,6 +43,17 @@ namespace ITRACKC2_BSIT3D_SAMPLE_APP
             return true;
         }
 
+        public void ClearInputs()
+        {
+            foreach (Control control in this.Controls)
+            {
+                if (control is TextBox txtbox)
+                {
+                    txtbox.Clear();       
+                }
+            }
+        }
+
         private void BtnRegister_Click(object sender, EventArgs e)
         {
             if (ValidateInput())
@@ -58,13 +69,21 @@ namespace ITRACKC2_BSIT3D_SAMPLE_APP
 
                 UserFunction userfunction = new UserFunction();
 
-                if (userfunction.Register(user))
+                try
                 {
-                    MessageBox.Show("Registered success");
-                }
-                else
+                    if (userfunction.Register(user))
+                    {
+                        MessageBox.Show("Registered success");
+                        ClearInputs();
+                        Close();
+                    }
+                    else
+                    {
+                        MessageBox.Show("failed to register");
+                    }
+                }catch(Exception ex)
                 {
-                    MessageBox.Show("failed to register");
+                    MessageBox.Show(ex.Message);
                 }
             }
             else
